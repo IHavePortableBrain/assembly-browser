@@ -32,6 +32,5 @@ namespace ViewModel
             get { return _number2; }
             set { _number2 = value; OnPropertyChanged("Number3"); }
         }
-        public int Number3 => MathFuncs.GetSumOf(Number1, Number2);
     }
 }
