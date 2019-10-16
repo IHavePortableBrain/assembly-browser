@@ -5,32 +5,36 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Forms;
+using System.Windows.Input;
 
 namespace ViewModel
 {
-    public class ViewModelMediator : INotifyPropertyChanged
+    public class ViewModelMediator 
     {
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected virtual void OnPropertyChanged(string propertyName)
+        public void OpenAssembly(object o, RoutedEventArgs e)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-        private int _number1;
-        public int Number1
-        {
-            get { return _number1; }
-            set
+            OpenFileDialog openFileDialog = new OpenFileDialog
             {
-                _number1 = value;
-                OnPropertyChanged("Number3"); // уведомление View о том, что изменилась сумма
+                Filter = "Assemblies|*.dll;*.exe",
+                Title = "Select assembly",
+                Multiselect = false
+            };
+
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                //assembly = new AssemblyStringProcessor(openFileDialog.FileName);
+                //OnPropertyChanged(nameof(Namespaces));
+                //Namespace = null;
+                //Datatype = null;
             }
         }
 
-        private int _number2;
-        public int Number2
+        public void Exit(object o, RoutedEventArgs e)
         {
-            get { return _number2; }
-            set { _number2 = value; OnPropertyChanged("Number3"); }
+            Environment.Exit(0);
         }
+
     }
 }

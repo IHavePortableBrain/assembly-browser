@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using ViewModel;
 
 namespace AsmBrowserView
 {
@@ -23,6 +24,13 @@ namespace AsmBrowserView
         public MainWindow()
         {
             InitializeComponent();
+            ViewModelMediator mediator = new ViewModelMediator();
+            DataContext = mediator;
+
+            CommandBinding commandBinding = new CommandBinding();
+            commandBinding.Command = ApplicationCommands.Open;
+            commandBinding.Executed += mediator.OpenAssembly;
+            menuItem_Open.CommandBindings.Add(commandBinding);
         }
     }
 }

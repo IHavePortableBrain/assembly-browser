@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -11,6 +12,7 @@ namespace Model
     public class AssemblyTypesInfo
     {
         protected readonly Dictionary<string, NamespaceTypesInfo> namespaceByName;
+
         public Dictionary<string, NamespaceTypesInfo> Namespaces => namespaceByName;
 
         public AssemblyTypesInfo(string assemblymPath)
