@@ -45,7 +45,7 @@ namespace Model
             {
                 if (!namespaceByName.TryGetValue(type.Namespace, out NamespaceTypesInfo namespaceTypesInfo))
                 {
-                    namespaceTypesInfo = new NamespaceTypesInfo();
+                    namespaceTypesInfo = new NamespaceTypesInfo(type.Namespace);
                     namespaceByName.Add(type.Namespace, namespaceTypesInfo);
                 }
                 namespaceTypesInfo.typeInfos.Add(type.GetTypeInfo());

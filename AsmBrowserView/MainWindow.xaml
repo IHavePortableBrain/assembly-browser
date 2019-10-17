@@ -40,10 +40,10 @@
             </Grid.RowDefinitions>
 
             <Label x:Name="namespaceLabel" VerticalAlignment="Center" Margin="10,0,10,0" Grid.Row="0" Grid.Column="0" Content="Namespace:"/>
-            <Label x:Name="datatypeLabel" VerticalAlignment="Center" Margin="10,0,10,0" Grid.Row="0" Grid.Column="1" Content="Datatype:"/>
+            <Label x:Name="datatypeLabel" VerticalAlignment="Center" Margin="10,0,10,0" Grid.Row="0" Grid.Column="1" Content="Type:"/>
 
-            <ComboBox x:Name="namespaceComboBox" VerticalAlignment="Center" Margin="10,0,10,0" Grid.Row="1" Grid.Column="0" ItemsSource="{Binding Namespaces}" SelectedItem="{Binding Path=Namespace}" FontFamily="Consolas"/>
-            <ComboBox x:Name="datatypeComboBox" VerticalAlignment="Center" Margin="10,0,10,0" Grid.Row="1" Grid.Column="1" ItemsSource="{Binding Datatypes}" SelectedItem="{Binding Path=Datatype}" FontFamily="Consolas"/>
+            <ComboBox x:Name="namespaceComboBox" VerticalAlignment="Center" Margin="10,0,10,0" Grid.Row="1" Grid.Column="0" ItemsSource="{Binding Namespaces}" SelectedItem="{Binding Path=SelectedNamespace}" FontFamily="Consolas"/>
+            <ComboBox x:Name="typeComboBox" VerticalAlignment="Center" Margin="10,0,10,0" Grid.Row="1" Grid.Column="1" ItemsSource="{Binding Types}" SelectedItem="{Binding Path=SelectedType}" FontFamily="Consolas"/>
         </Grid>
 
         <Grid Grid.Row="2" Grid.Column="0">
