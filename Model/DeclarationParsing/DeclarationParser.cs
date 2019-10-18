@@ -11,7 +11,7 @@ namespace Model.DeclarationParsing
     {
         public abstract string GetDeclaration(MemberInfo info);
 
-        protected virtual string GetModifiers(TypeInfo ti)
+        protected string GetModifiers(TypeInfo ti)
         {
             //TypeInfo ti = memberInfo.ReflectedType.GetTypeInfo();
             List<string> modifiers = new List<string>();
@@ -33,7 +33,7 @@ namespace Model.DeclarationParsing
             return modifiers.Aggregate((str1, str2) => str1 + " " + str2);
         }
 
-        internal string GetTypeKeyWord(TypeInfo ti)
+        protected string GetTypeKeyWord(TypeInfo ti)
         {
             //TypeInfo ti = memberInfo.ReflectedType.GetTypeInfo();
             string result = null;
@@ -49,7 +49,7 @@ namespace Model.DeclarationParsing
             return result;
         }
 
-        internal string GetName(TypeInfo ti)
+        protected string GetName(TypeInfo ti)
         {
             return ti.Name;
         }

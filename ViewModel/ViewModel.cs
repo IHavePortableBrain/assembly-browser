@@ -86,10 +86,6 @@ namespace ViewModel
             get
             {
                 return selectedNamespace?.GetTypesDeclarations();
-                //IEnumerable<string> result = null;
-                //if (selectedNamespace != null)
-                //    result = selectedNamespace.typeInfos.Select(typeInfo => { return typeInfo.FullName; });
-                //return result;
             }
         }
 

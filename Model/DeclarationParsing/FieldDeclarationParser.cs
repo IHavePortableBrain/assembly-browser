@@ -13,5 +13,23 @@ namespace Model.DeclarationParsing
         {
             throw new NotImplementedException();
         }
+
+        protected string GetModifiers(FieldInfo fi)
+        {
+            TypeInfo ti = fi.ReflectedType.GetTypeInfo();
+            return base.GetModifiers(ti);
+        }
+
+        protected string GetTypeKeyWord(FieldInfo fi)
+        {
+            TypeInfo ti = fi.ReflectedType.GetTypeInfo();
+            return base.GetTypeKeyWord(ti);
+        }
+
+        protected string GetName(FieldInfo fi)
+        {
+            return fi.Name;
+        }
+
     }
 }
