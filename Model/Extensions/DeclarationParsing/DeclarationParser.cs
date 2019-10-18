@@ -5,13 +5,11 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Model.DeclarationParsing
+namespace Model.Extensions.DeclarationParsing
 {
-    public abstract class DeclarationParser : IDeclarationParser
+    internal static class DeclarationParser
     {
-        public abstract string GetDeclaration(MemberInfo info);
-
-        protected string GetModifiers(TypeInfo ti)
+        internal static string GetModifiers(TypeInfo ti)
         {
             //TypeInfo ti = memberInfo.ReflectedType.GetTypeInfo();
             List<string> modifiers = new List<string>();
@@ -33,7 +31,7 @@ namespace Model.DeclarationParsing
             return modifiers.Aggregate((str1, str2) => str1 + " " + str2);
         }
 
-        protected string GetTypeKeyWord(TypeInfo ti)
+        internal static string GetTypeKeyWord(TypeInfo ti)
         {
             //TypeInfo ti = memberInfo.ReflectedType.GetTypeInfo();
             string result = null;
@@ -49,7 +47,7 @@ namespace Model.DeclarationParsing
             return result;
         }
 
-        protected string GetName(TypeInfo ti)
+        internal static string GetName(MemberInfo ti)
         {
             return ti.Name;
         }

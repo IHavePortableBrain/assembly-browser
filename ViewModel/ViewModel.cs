@@ -1,4 +1,5 @@
 ﻿using Model;
+using Model.Extensions.DeclarationParsing;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -95,7 +96,7 @@ namespace ViewModel
             {
                 IEnumerable<string> result = null;
                 if (selectedType != null)
-                    result = selectedType.DeclaredFields.Select(fieldInfo => { return fieldInfo.Name; }).ToList();
+                    result = selectedType.DeclaredFields.Select(fieldInfo => { return fieldInfo.GetDeclaration(); }).ToList();
                 return result;
             }
         }
@@ -106,7 +107,7 @@ namespace ViewModel
             {
                 IEnumerable<string> result = null;
                 if (selectedType != null)
-                    result = selectedType.DeclaredProperties.Select(propInfo => { return propInfo.Name; }).ToList();
+                    result = selectedType.DeclaredProperties.Select(propInfo => { return propInfo.GetDeclaration(); }).ToList();
                 return result;
             }
         }
@@ -117,7 +118,7 @@ namespace ViewModel
             {
                 IEnumerable<string> result = null;
                 if (selectedType != null)
-                    result = selectedType.DeclaredMethods.Select(methodInfo => { return methodInfo.Name; }).ToList();
+                    result = selectedType.DeclaredMethods.Select(methodInfo => { return methodInfo.GetDeclaration(); }).ToList();
                 return result;
             }
         }

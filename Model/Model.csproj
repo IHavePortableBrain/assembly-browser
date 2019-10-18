@@ -42,14 +42,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyTypesInfo.cs" />
-    <Compile Include="DeclarationParsing\DeclarationParser.cs" />
-    <Compile Include="DeclarationParsing\PropertyDeclarationParser.cs" />
-    <Compile Include="DeclarationParsing\MethodDeclarationParser.cs" />
-    <Compile Include="DeclarationParsing\FieldDeclarationParser.cs" />
-    <Compile Include="DeclarationParsing\IDeclarationParser.cs" />
+    <Compile Include="Extensions\DeclarationParsing\DeclarationParser.cs" />
+    <Compile Include="Extensions\DeclarationParsing\PropertyDeclarationParser.cs" />
+    <Compile Include="Extensions\DeclarationParsing\MethodDeclarationParser.cs" />
+    <Compile Include="Extensions\DeclarationParsing\FieldDeclarationParser.cs" />
     <Compile Include="NamespaceTypesInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="DeclarationParsing\TypeDeclarationParser.cs" />
+    <Compile Include="Extensions\DeclarationParsing\TypeDeclarationParser.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -16,11 +16,12 @@ namespace Model.Test.classes.ns1
         public Point propPoint { get; set; }
         private Point _propPoint { get; set; }
 
-        public void MethodVoid()
+        public void MethodVoid(int i)
         {
         }
-        private string methodInt()
+        private string methodInt(in int inParamInt,out  string outStr, int int1 = 1)
         {
+            outStr = null;
             return "foo";
         }
     }

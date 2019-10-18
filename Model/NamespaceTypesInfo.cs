@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using Model.DeclarationParsing;
+using Model.Extensions.DeclarationParsing;
 
 namespace Model
 {
@@ -19,10 +19,9 @@ namespace Model
 
         public IEnumerable<string> GetTypesDeclarations()
         {
-            TypeDeclarationParser parser = new TypeDeclarationParser();
             IEnumerable<string> result = null;
             result = typeInfos.Select(typeInfo => {
-                return parser.GetDeclaration(typeInfo);
+                return typeInfo.GetDeclaration();
                 //return typeInfo.Name;
             });
             return result;
