@@ -15,7 +15,7 @@ namespace ViewModel
 {
     public class ViewModelMediator:INotifyPropertyChanged 
     {
-        protected AssemblyTypesInfo typesInfo;
+        protected AssemblyTypesInfo AssemblyTypesInfo;
 
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged([CallerMemberName]string prop = "")
@@ -32,11 +32,12 @@ namespace ViewModel
             set
             {
                 selectedNamespace = null;
+                SelectedType = null;
                 if (value != null)
                 {
-                    typesInfo?.Namespaces?.TryGetValue(value, out selectedNamespace);
-                    OnPropertyChanged(nameof(Types));
+                    AssemblyTypesInfo?.Namespaces?.TryGetValue(value, out selectedNamespace);
                 }
+                OnPropertyChanged(nameof(Types));//must be first?
             }
         }
 
@@ -52,22 +53,27 @@ namespace ViewModel
                 selectedType = null;
                 if (value != null)
                 {
+                    string typeName = GetLastWord(value);
                     NamespaceTypesInfo ns = null;
-                    if (typesInfo?.Namespaces?.TryGetValue(SelectedNamespace, out ns) ?? false)
-                        selectedType = ns.typeInfos?.Find(x => x.FullName == value);
-
-                    OnPropertyChanged(nameof(Fields));
-                    OnPropertyChanged(nameof(Properties));
-                    OnPropertyChanged(nameof(Methods));
+                    if (AssemblyTypesInfo?.Namespaces?.TryGetValue(SelectedNamespace, out ns) ?? false)
+                        selectedType = ns.typeInfos?.Find(x => x.Name == typeName);
                 }
+                OnPropertyChanged(nameof(Fields));
+                OnPropertyChanged(nameof(Properties));
+                OnPropertyChanged(nameof(Methods));
             }
+        }
+
+        private string GetLastWord(string value)
+        {
+            return value.Split(' ').Last();
         }
 
         public IEnumerable<string> Namespaces
         {
             get
             {
-                return typesInfo?.Namespaces?.Keys;
+                return AssemblyTypesInfo?.GetNamespacesDeclarations();
             }
             protected set
             {
@@ -79,14 +85,11 @@ namespace ViewModel
         {
             get
             {
-                IEnumerable<string> result = null;
-                if (selectedNamespace != null)
-                    result = selectedNamespace.typeInfos.Select(typeInfo => { return typeInfo.FullName; });
-                return result;
-            }
-            protected set
-            {
-                Types = value;
+                return selectedNamespace?.GetTypesDeclarations();
+                //IEnumerable<string> result = null;
+                //if (selectedNamespace != null)
+                //    result = selectedNamespace.typeInfos.Select(typeInfo => { return typeInfo.FullName; });
+                //return result;
             }
         }
 
@@ -99,10 +102,6 @@ namespace ViewModel
                     result = selectedType.DeclaredFields.Select(fieldInfo => { return fieldInfo.Name; }).ToList();
                 return result;
             }
-            protected set
-            {
-                Types = value;
-            }
         }
 
         public IEnumerable<string> Properties
@@ -113,10 +112,6 @@ namespace ViewModel
                 if (selectedType != null)
                     result = selectedType.DeclaredProperties.Select(propInfo => { return propInfo.Name; }).ToList();
                 return result;
-            }
-            protected set
-            {
-                Types = value;
             }
         }
 
@@ -129,12 +124,7 @@ namespace ViewModel
                     result = selectedType.DeclaredMethods.Select(methodInfo => { return methodInfo.Name; }).ToList();
                 return result;
             }
-            protected set
-            {
-                Types = value;
-            }
         }
-
 
         public void OpenAssembly(object o, RoutedEventArgs e)
         {
@@ -147,7 +137,7 @@ namespace ViewModel
 
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                typesInfo = new AssemblyTypesInfo(openFileDialog.FileName);
+                AssemblyTypesInfo = new AssemblyTypesInfo(openFileDialog.FileName);
                 SelectedNamespace = null;
                 SelectedType = null;
 
@@ -158,11 +148,5 @@ namespace ViewModel
                 OnPropertyChanged(nameof(Methods));
             }
         }
-
-        public void Exit(object o, RoutedEventArgs e)
-        {
-            Environment.Exit(0);
-        }
-
     }
 }

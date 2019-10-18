@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -21,5 +22,51 @@ namespace Model.Test
             namespaces = null;
             Assert.IsNotNull(assemblyTypesInfo.Namespaces);
         }
+
+        [TestMethod]
+        public void TestTypeDeclaration()
+        {
+            AssemblyTypesInfo assemblyTypesInfo = new AssemblyTypesInfo(Assembly.GetExecutingAssembly());
+            IEnumerable<string> decs = assemblyTypesInfo.Namespaces["Model.Test.classes.ns1"].GetTypesDeclarations().ToArray();
+            IEnumerable<string> decsExpected = new string[] {"public struct Struct1",
+            "struct Struct2",
+            "enum Enum",
+            "class Ns1MethodsFieldsProps"};
+            Assert.AreEqual(decsExpected, decs);
+        }
+
+        [TestMethod]
+        public void TestMethodDeclaration()
+        {
+            AssemblyTypesInfo assemblyTypesInfo = new AssemblyTypesInfo(Assembly.GetExecutingAssembly());
+            //assemblyTypesInfo.Namespaces["Model.Test.classes.ns1"].GetTypesDeclarations = { 
+            //"public struct Struct1",
+            //"struct Struct2",
+            //"enum Enum",
+            //"class Ns1MethodsFieldsProps"}
+        }
+
+        [TestMethod]
+        public void TestFieldDeclaration()
+        {
+            AssemblyTypesInfo assemblyTypesInfo = new AssemblyTypesInfo(Assembly.GetExecutingAssembly());
+            //assemblyTypesInfo.Namespaces["Model.Test.classes.ns1"].GetTypesDeclarations = { 
+            //"public struct Struct1",
+            //"struct Struct2",
+            //"enum Enum",
+            //"class Ns1MethodsFieldsProps"}
+        }
+
+        [TestMethod]
+        public void TestPropertyDeclaration()
+        {
+            AssemblyTypesInfo assemblyTypesInfo = new AssemblyTypesInfo(Assembly.GetExecutingAssembly());
+            //assemblyTypesInfo.Namespaces["Model.Test.classes.ns1"].GetTypesDeclarations = { 
+            //"public struct Struct1",
+            //"struct Struct2",
+            //"enum Enum",
+            //"class Ns1MethodsFieldsProps"}
+        }
+
     }
 }

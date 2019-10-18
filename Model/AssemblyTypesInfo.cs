@@ -19,10 +19,17 @@ namespace Model
         {
             namespaceByName = new Dictionary<string, NamespaceTypesInfo>();
             Assembly asm = Assembly.LoadFile(assemblymPath);
-            AddTypes(asm);
+            AddTypesAndNamespacesTheyAreDeclaredAt(asm);
         }
 
-        private void AddTypes(Assembly asm)
+        public AssemblyTypesInfo(Assembly assembly)
+        {
+            namespaceByName = new Dictionary<string, NamespaceTypesInfo>();
+            Assembly asm = assembly;
+            AddTypesAndNamespacesTheyAreDeclaredAt(asm);
+        }
+
+        private void AddTypesAndNamespacesTheyAreDeclaredAt(Assembly asm)
         {
             Type[] types;
             try
@@ -35,9 +42,7 @@ namespace Model
                 foreach (Type type in e.Types)
                 {
                     if (type != null)
-                    {
                         typeList.Add(type);
-                    }
                 }
                 types = typeList.ToArray();
             }
@@ -52,5 +57,9 @@ namespace Model
             }
         }
 
+        public IEnumerable<string> GetNamespacesDeclarations()
+        {
+            return this.Namespaces?.Keys;
+        }
     }
 }

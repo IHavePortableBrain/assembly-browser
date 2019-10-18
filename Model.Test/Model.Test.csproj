@@ -47,8 +47,12 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="classes\Ns1AbstractClass.cs" />
+    <Compile Include="classes\Ns1StructsEnums.cs" />
+    <Compile Include="classes\Ns1MethodsFieldsProps.cs" />
     <Compile Include="UnitTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

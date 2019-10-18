@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
+using System.Text;
+using Model.DeclarationParsing;
 
 namespace Model
 {
@@ -13,5 +16,17 @@ namespace Model
         {
             Name = name;
         }
+
+        public IEnumerable<string> GetTypesDeclarations()
+        {
+            TypeDeclarationParser parser = new TypeDeclarationParser();
+            IEnumerable<string> result = null;
+            result = typeInfos.Select(typeInfo => {
+                return parser.GetDeclaration(typeInfo);
+                //return typeInfo.Name;
+            });
+            return result;
+        }
+
     }
 }
