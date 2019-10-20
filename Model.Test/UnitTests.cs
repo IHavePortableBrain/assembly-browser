@@ -38,6 +38,7 @@ namespace Model.Test
             Assert.IsTrue(IEnumerableExtension.MembersAreEqual(decsExpected, decs));
         }
 
+        //Does not test ctors
         [TestMethod]
         public void TestMethodDeclaration()
         {
@@ -84,7 +85,7 @@ namespace Model.Test
         [TestMethod]
         public void TestExtensionMethodDeclaration()
         {
-
+            //when cheking isDefiend callback to extension ,=method handler; collect extension methods method
         }
 
     }

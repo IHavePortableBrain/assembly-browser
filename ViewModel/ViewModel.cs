@@ -118,7 +118,10 @@ namespace ViewModel
             {
                 IEnumerable<string> result = null;
                 if (selectedType != null)
+                {
                     result = selectedType.DeclaredMethods.Select(methodInfo => { return methodInfo.GetDeclaration(); }).ToList();
+                    result = result.Concat(selectedType.DeclaredConstructors.Select(ci => { return ci.GetDeclaration(); }).ToList());
+                }
                 return result;
             }
         }

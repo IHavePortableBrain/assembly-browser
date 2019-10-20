@@ -1,31 +1,43 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace Model.Extensions.DeclarationParsing
 {
     public static class MethodDeclarationParser
     {
-        public static string GetDeclaration(this MethodInfo mi)
+        public static string GetDeclaration(this MethodBase mi)
         {
             string result = null;
             result += " " + GetModifiers(mi);
-            result += " " + GetReturnTypeName(mi);
+
+            string toAdd = GetReturnTypeName(mi);
+            result += toAdd == null ?  null : " " + toAdd;
+
             result += " " + DeclarationParser.GetName(mi);
             result += GetParametrs(mi);
             return result.Trim();
         }
 
-        private static string GetParametrs(MethodInfo mi)
+        private static string GetParametrs(MethodBase mi)
         {
             string result = "(";
             ParameterInfo[] parameters = mi.GetParameters();
-            if (mi.IsDefined(typeof(ExtensionAttribute)))
-                result += "this ";
+            try
+            {
+                if (mi.IsDefined(typeof(ExtensionAttribute)))
+                    result += "this ";
+            }
+            catch (FileNotFoundException)
+            {
+            }
+            
             foreach (ParameterInfo param in parameters)
             {
                 result += param.IsIn ? "in " : param.IsOut ? "out " : null;
@@ -37,7 +49,7 @@ namespace Model.Extensions.DeclarationParsing
             return result;
         }
 
-        internal static string GetModifiers(MethodInfo mi)
+        internal static string GetModifiers(MethodBase mi)
         {
             //TypeInfo ti = memberInfo.ReflectedType.GetTypeInfo();
             List<string> modifiers = new List<string>();
@@ -56,12 +68,14 @@ namespace Model.Extensions.DeclarationParsing
                 modifiers.Add("abstract");
             else if (mi.IsVirtual)
                 modifiers.Add("virtual");
-            return modifiers.Aggregate((str1, str2) => str1 + " " + str2);
+
+            return modifiers.Any() ? modifiers.Aggregate((str1, str2) => str1 + " " + str2) : null;
         }
 
-        private static string GetReturnTypeName(MethodInfo mi)
+        private static string GetReturnTypeName(MethodBase mb)
         {
-            return mi.ReturnType.Name;
+            MethodInfo mi = mb as MethodInfo;
+            return mi?.ReturnType.Name;
         }
     }
 }

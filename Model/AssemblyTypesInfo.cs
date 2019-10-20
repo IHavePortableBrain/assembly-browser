@@ -48,12 +48,13 @@ namespace Model
             }
             foreach (Type type in types)
             {
-                if (!namespaceByName.TryGetValue(type.Namespace, out NamespaceTypesInfo namespaceTypesInfo))
+                NamespaceTypesInfo namespaceTypesInfo = null;
+                if (type.Namespace != null && !namespaceByName.TryGetValue(type.Namespace, out namespaceTypesInfo))
                 {
                     namespaceTypesInfo = new NamespaceTypesInfo(type.Namespace);
                     namespaceByName.Add(type.Namespace, namespaceTypesInfo);
                 }
-                namespaceTypesInfo.typeInfos.Add(type.GetTypeInfo());
+                namespaceTypesInfo?.typeInfos.Add(type.GetTypeInfo());
             }
         }
 
