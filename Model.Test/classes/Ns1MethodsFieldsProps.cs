@@ -13,13 +13,13 @@ namespace Model.Test.classes.ns1
         private int _int2;
         protected int int3;
 
-        public Point propPoint { get; set; }
+        public Point propPoint { get; private set; }
         private Point _propPoint { get; set; }
 
         public void MethodVoid(int i)
         {
         }
-        private string methodInt(in int inParamInt,out  string outStr, int int1 = 1)
+        private string MethodInt(in int inParamInt,out  string outStr, int int1 = 1)
         {
             outStr = null;
             return "foo";

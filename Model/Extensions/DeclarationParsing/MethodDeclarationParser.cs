@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -16,13 +17,15 @@ namespace Model.Extensions.DeclarationParsing
             result += " " + GetReturnTypeName(mi);
             result += " " + DeclarationParser.GetName(mi);
             result += GetParametrs(mi);
-            return result;
+            return result.Trim();
         }
 
         private static string GetParametrs(MethodInfo mi)
         {
             string result = "(";
             ParameterInfo[] parameters = mi.GetParameters();
+            if (mi.IsDefined(typeof(ExtensionAttribute)))
+                result += "this ";
             foreach (ParameterInfo param in parameters)
             {
                 result += param.IsIn ? "in " : param.IsOut ? "out " : null;
@@ -59,12 +62,6 @@ namespace Model.Extensions.DeclarationParsing
         private static string GetReturnTypeName(MethodInfo mi)
         {
             return mi.ReturnType.Name;
-        }
-
-        private static string GetModifiers(FieldInfo fi)
-        {
-            TypeInfo ti = fi.FieldType.GetTypeInfo();
-            return DeclarationParser.GetModifiers(ti);
         }
     }
 }

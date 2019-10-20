@@ -16,24 +16,43 @@ namespace Model.Extensions.DeclarationParsing
             result += " " + GetTypeName(pi);
             result += " " + DeclarationParser.GetName(pi);
             result += GetAccessors(pi); 
-            return result;
+            return result.Trim();
         }
 
         private static string GetTypeName(PropertyInfo pi)
         {
-            return pi.DeclaringType.Name;
+            return pi.PropertyType.Name;
         }
 
-        private static string GetModifiers(PropertyInfo pi)
+        internal static string GetModifiers(PropertyInfo pi)
         {
-            TypeInfo ti = pi.PropertyType.GetTypeInfo();
-            return DeclarationParser.GetModifiers(ti);
+            List<string> modifiers = new List<string>();
+
+            //How !?
+
+            if (modifiers.Any())
+                return modifiers.Aggregate((str1, str2) => str1 + " " + str2);//exception if no modifiers
+            else
+                return null;
         }
 
         private static string GetAccessors(PropertyInfo pi)
         {
-            pi.GetAccessors();
-            return null;
+            string result;
+            MethodInfo[] accessors = pi.GetAccessors(true);
+            result = " {";
+
+            foreach (var a in accessors)
+            {
+                if (a.IsSpecialName)
+                {
+                    result += a.IsPublic ? " public" : " private";
+                    result += a.Name.StartsWith("set_") ? " set" : " get";
+                }
+            }
+
+            result += " }";
+            return result;
         }
     }
 }

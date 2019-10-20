@@ -15,18 +15,32 @@ namespace Model.Extensions.DeclarationParsing
             result += " " + GetModifiers(fi);
             result += " " + GetTypeName(fi);
             result += " " + DeclarationParser.GetName(fi);
-            return result;
+            return result.Trim();
         }
 
         private static string GetTypeName(FieldInfo fi)
         {
-            return fi.DeclaringType.Name;
+            return fi.FieldType.Name;
         }
 
-        private static string GetModifiers(FieldInfo fi)
+        internal static string GetModifiers(FieldInfo fi)
         {
-            TypeInfo ti = fi.FieldType.GetTypeInfo();
-            return DeclarationParser.GetModifiers(ti);
+            List<string> modifiers = new List<string>();
+
+            if (fi.IsPublic)
+                modifiers.Add("public");
+            else if (fi.IsPrivate)
+                modifiers.Add("private");
+
+            if (fi.IsInitOnly)
+                modifiers.Add("readonly");
+            if (fi.IsStatic)
+                modifiers.Add("static");
+
+            if (modifiers.Any())
+                return modifiers.Aggregate((str1, str2) => str1 + " " + str2);//exception if no modifiers
+            else
+                return null;
         }
     }
 }
