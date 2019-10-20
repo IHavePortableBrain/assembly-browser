@@ -12,10 +12,19 @@ namespace Model.Extensions.DeclarationParsing
         public static string GetDeclaration(this TypeInfo ti)
         {
             string result = null;
-            result += " " + DeclarationParser.GetModifiers(ti);
-            result += " " + DeclarationParser.GetTypeKeyWord(ti);
-            result += " " + DeclarationParser.GetName(ti);
-            return result;
+
+            string strToAdd = DeclarationParser.GetModifiers(ti);
+            result = strToAdd;
+
+            strToAdd = DeclarationParser.GetTypeKeyWord(ti);
+            if (strToAdd != null)
+                result += " " + strToAdd;
+
+            strToAdd = DeclarationParser.GetName(ti);
+            if (strToAdd != null)
+                result += " " + strToAdd;
+
+            return result.Trim();
         }
     }
 }

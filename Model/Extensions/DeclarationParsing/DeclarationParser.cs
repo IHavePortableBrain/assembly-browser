@@ -11,14 +11,9 @@ namespace Model.Extensions.DeclarationParsing
     {
         internal static string GetModifiers(TypeInfo ti)
         {
-            //TypeInfo ti = memberInfo.ReflectedType.GetTypeInfo();
             List<string> modifiers = new List<string>();
             if (ti.IsPublic)
                 modifiers.Add("public");
-            else if (ti.IsNestedPrivate)
-                modifiers.Add("nestedPrivate");
-            else if (ti.IsNotPublic)
-                modifiers.Add("notPublic");
             if (ti.IsClass)
             {
                 if (ti.IsAbstract && ti.IsSealed)
@@ -28,7 +23,11 @@ namespace Model.Extensions.DeclarationParsing
                 else if (ti.IsSealed)
                     modifiers.Add("sealed");
             }
-            return modifiers.Aggregate((str1, str2) => str1 + " " + str2);
+
+            if (modifiers.Any())
+                return modifiers.Aggregate((str1, str2) => str1 + " " + str2);//exception if no modifiers
+            else
+                return null;
         }
 
         internal static string GetTypeKeyWord(TypeInfo ti)
@@ -43,6 +42,8 @@ namespace Model.Extensions.DeclarationParsing
                 result = "interface";
             else if (ti.IsGenericType)
                 result = "generic";
+            else if (ti.IsValueType && !ti.IsPrimitive)
+                result = "struct";
 
             return result;
         }

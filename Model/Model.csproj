@@ -46,6 +46,7 @@
     <Compile Include="Extensions\DeclarationParsing\PropertyDeclarationParser.cs" />
     <Compile Include="Extensions\DeclarationParsing\MethodDeclarationParser.cs" />
     <Compile Include="Extensions\DeclarationParsing\FieldDeclarationParser.cs" />
+    <Compile Include="Extensions\IEnumerable\IEnumerableExtension.cs" />
     <Compile Include="NamespaceTypesInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Extensions\DeclarationParsing\TypeDeclarationParser.cs" />

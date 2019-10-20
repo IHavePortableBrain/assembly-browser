@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Model.Extensions.IEnumerable;
 
 namespace Model.Test
 {
@@ -31,8 +32,9 @@ namespace Model.Test
             IEnumerable<string> decsExpected = new string[] {"public struct Struct1",
             "struct Struct2",
             "enum Enum",
-            "class Ns1MethodsFieldsProps"};
-            Assert.AreEqual(decsExpected, decs);
+            "class Ns1MethodsFieldsProps",
+            "abstract class Ns1AbstractClass"};
+            Assert.IsTrue(IEnumerableExtension.MembersAreEqual(decsExpected, decs));
         }
 
         [TestMethod]
