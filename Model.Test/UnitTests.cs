@@ -34,7 +34,8 @@ namespace Model.Test
                                                                 "struct Struct2",
                                                                 "enum Enum",
                                                                 "class Ns1MethodsFieldsProps",
-                                                                "abstract class Ns1AbstractClass"};
+                                                                "abstract class Ns1AbstractClass",
+                                                                "static class Ns1StrExt"};
             Assert.IsTrue(IEnumerableExtension.MembersAreEqual(decsExpected, decs));
         }
 
@@ -85,7 +86,10 @@ namespace Model.Test
         [TestMethod]
         public void TestExtensionMethodDeclaration()
         {
-            //when cheking isDefiend callback to extension ,=method handler; collect extension methods method
+            AssemblyTypesInfo assemblyTypesInfo = new AssemblyTypesInfo(Assembly.GetExecutingAssembly());
+            IEnumerable<MethodInfo> extentions = assemblyTypesInfo.GetExtensionMethods(typeof(string).GetTypeInfo());
+            Assert.AreEqual(1, extentions.Count());
+            Assert.AreEqual("ExtMethod", extentions.First().Name);
         }
 
     }

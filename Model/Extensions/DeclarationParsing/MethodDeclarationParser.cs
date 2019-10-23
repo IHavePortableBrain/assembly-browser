@@ -22,6 +22,7 @@ namespace Model.Extensions.DeclarationParsing
 
             result += " " + DeclarationParser.GetName(mi);
             result += GetParametrs(mi);
+
             return result.Trim();
         }
 
@@ -31,7 +32,7 @@ namespace Model.Extensions.DeclarationParsing
             ParameterInfo[] parameters = mi.GetParameters();
             try
             {
-                if (mi.IsDefined(typeof(ExtensionAttribute)))
+                if (mi.IsDefined(typeof(ExtensionAttribute), false))
                     result += "this ";
             }
             catch (FileNotFoundException)

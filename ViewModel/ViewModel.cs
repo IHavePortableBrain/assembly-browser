@@ -11,9 +11,15 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Input;
+using Model.Extensions.IEnumerable;
+using Model.Extensions.String;
+using Model.Extensions;
+using System.IO;
 
 namespace ViewModel
 {
+    //TODO: handle same file open bars do not refresh bug.
+    //TODO: unknown declarations c<> remove from show list
     public class ViewModelMediator:INotifyPropertyChanged 
     {
         protected AssemblyTypesInfo AssemblyTypesInfo;
@@ -35,10 +41,8 @@ namespace ViewModel
                 selectedNamespace = null;
                 SelectedType = null;
                 if (value != null)
-                {
                     AssemblyTypesInfo?.Namespaces?.TryGetValue(value, out selectedNamespace);
-                }
-                OnPropertyChanged(nameof(Types));//must be first?
+                OnPropertyChanged(nameof(Types));
             }
         }
 
@@ -54,7 +58,7 @@ namespace ViewModel
                 selectedType = null;
                 if (value != null)
                 {
-                    string typeName = GetLastWord(value);
+                    string typeName = value.GetLastWord();
                     NamespaceTypesInfo ns = null;
                     if (AssemblyTypesInfo?.Namespaces?.TryGetValue(SelectedNamespace, out ns) ?? false)
                         selectedType = ns.typeInfos?.Find(x => x.Name == typeName);
@@ -63,11 +67,6 @@ namespace ViewModel
                 OnPropertyChanged(nameof(Properties));
                 OnPropertyChanged(nameof(Methods));
             }
-        }
-
-        private string GetLastWord(string value)
-        {
-            return value.Split(' ').Last();
         }
 
         public IEnumerable<string> Namespaces
@@ -86,7 +85,8 @@ namespace ViewModel
         {
             get
             {
-                return selectedNamespace?.GetTypesDeclarations();
+                IEnumerable<string> value = selectedNamespace?.GetTypesDeclarations();
+                return value;
             }
         }
 
@@ -119,11 +119,26 @@ namespace ViewModel
                 IEnumerable<string> result = null;
                 if (selectedType != null)
                 {
-                    result = selectedType.DeclaredMethods.Select(methodInfo => { return methodInfo.GetDeclaration(); }).ToList();
+                    result = selectedType.DeclaredMethods.Select(mi => {
+                        if (!AssemblyTypesInfo.IsExtensionMethod(mi, selectedType))
+                            return mi.GetDeclaration();
+                        else
+                            return null;//extension methods where transported to extended class 
+                    }).ToList();
+                    AddExtMethodsToMethodShowListOfSelectedType(ref result);
                     result = result.Concat(selectedType.DeclaredConstructors.Select(ci => { return ci.GetDeclaration(); }).ToList());
                 }
+                result.ClearOfNulls();
                 return result;
             }
+        }
+
+        //TODO: Add null showList parametr concatenation
+        private void AddExtMethodsToMethodShowListOfSelectedType(ref IEnumerable<string> showList)
+        {
+            IEnumerable<string> extensionMethodsDeclarations = AssemblyTypesInfo.GetExtensionMethods(selectedType)?.Select(mi => mi.GetDeclaration()).ToList();
+            if (extensionMethodsDeclarations != null)
+                showList = showList?.Concat(extensionMethodsDeclarations).ToList();
         }
 
         public void OpenAssembly(object o, RoutedEventArgs e)
@@ -148,5 +163,7 @@ namespace ViewModel
                 OnPropertyChanged(nameof(Methods));
             }
         }
+
+        
     }
 }

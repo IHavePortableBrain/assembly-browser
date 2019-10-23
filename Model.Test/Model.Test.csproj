@@ -54,6 +54,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="classes\Ns1AbstractClass.cs" />
+    <Compile Include="classes\Ns1StrExt.cs" />
     <Compile Include="classes\Ns1StructsEnums.cs" />
     <Compile Include="classes\Ns1MethodsFieldsProps.cs" />
     <Compile Include="UnitTests.cs" />

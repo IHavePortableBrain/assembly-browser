@@ -21,5 +21,15 @@ namespace Model.Extensions.IEnumerable
 
             return true;
         }
+
+        public static void ClearOfNulls<T>(this IEnumerable<T> items)
+        {
+            if (items != null)
+            {
+                List<T> itemsList = new List<T>(items);
+                itemsList.RemoveAll(item => item == null);
+                items = itemsList;
+            }
+        }
     }
 }
