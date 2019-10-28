@@ -30,14 +30,10 @@ namespace Model.Extensions.DeclarationParsing
         {
             string result = "(";
             ParameterInfo[] parameters = mi.GetParameters();
-            try
-            {
+
                 if (mi.IsDefined(typeof(ExtensionAttribute), false))
                     result += "this ";
-            }
-            catch (FileNotFoundException)
-            {
-            }
+            
             
             foreach (ParameterInfo param in parameters)
             {

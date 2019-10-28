@@ -39,12 +39,8 @@ namespace Model
             return ExtMisByDeclaringTi.TryGetValue(declaringTi, out List<MethodInfo> extensionMis) && extensionMis.Contains(mi);
         }
 
-        public AssemblyTypesInfo(string assemblymPath)
+        public AssemblyTypesInfo(string assemblymPath) : this(Assembly.LoadFile(assemblymPath))
         {
-            namespaceByName = new Dictionary<string, NamespaceTypesInfo>();
-            Assembly asm = Assembly.LoadFile(assemblymPath);
-            AddTypesAndTheirNamespacesOfAsm(asm);
-            CollectExtensionMethods();
         }
 
         public AssemblyTypesInfo(Assembly assembly)

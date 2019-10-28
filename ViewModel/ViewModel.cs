@@ -128,8 +128,7 @@ namespace ViewModel
                     AddExtMethodsToMethodShowListOfSelectedType(ref result);
                     result = result.Concat(selectedType.DeclaredConstructors.Select(ci => { return ci.GetDeclaration(); }).ToList());
                 }
-                result.ClearOfNulls();
-                return result;
+                return result.ClearOfNulls();
             }
         }
 

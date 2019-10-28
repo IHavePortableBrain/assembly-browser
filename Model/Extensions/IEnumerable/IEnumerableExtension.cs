@@ -22,14 +22,9 @@ namespace Model.Extensions.IEnumerable
             return true;
         }
 
-        public static void ClearOfNulls<T>(this IEnumerable<T> items)
+        public static IEnumerable<T> ClearOfNulls<T>(this IEnumerable<T> items)
         {
-            if (items != null)
-            {
-                List<T> itemsList = new List<T>(items);
-                itemsList.RemoveAll(item => item == null);
-                items = itemsList;
-            }
+            return items.Where(x => x != null);
         }
     }
 }
